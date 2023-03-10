@@ -1,6 +1,6 @@
 --+----------------------------------------------------------------------------
 --| 
---| COPYRIGHT 2018 United States Air Force Academy All rights reserved.
+--| COPYRIGHT 2017 United States Air Force Academy All rights reserved.
 --| 
 --| United States Air Force Academy     __  _______ ___    _________ 
 --| Dept of Electrical &               / / / / ___//   |  / ____/   |
@@ -10,20 +10,10 @@
 --| 
 --| ---------------------------------------------------------------------------
 --|
---| FILENAME      : top_basys3.vhd
+--| FILENAME      : thunderbird_fsm_tb.vhd (TEST BENCH)
 --| AUTHOR(S)     : Capt Phillip Warner
---| CREATED       : 02/22/2018
---| DESCRIPTION   : This file implements the top level module for a BASYS 3 to 
---|					drive a Thunderbird taillight controller FSM.
---|
---|					Inputs:  clk 	--> 100 MHz clock from FPGA
---|                          sw(15) --> left turn signal
---|                          sw(0)  --> right turn signal
---|                          btnL   --> clk reset
---|                          btnR   --> FSM reset
---|							 
---|					Outputs:  led(15:13) --> left turn signal lights
---|					          led(2:0)   --> right turn signal lights
+--| CREATED       : 03/2017
+--| DESCRIPTION   : This file tests the thunderbird_fsm modules.
 --|
 --|
 --+----------------------------------------------------------------------------
@@ -32,7 +22,8 @@
 --|
 --|    Libraries : ieee
 --|    Packages  : std_logic_1164, numeric_std
---|    Files     : thunderbird_fsm.vhd, clock_divider.vhd
+--|    Files     : thunderbird_fsm_enumerated.vhd, thunderbird_fsm_binary.vhd, 
+--|				   or thunderbird_fsm_onehot.vhd
 --|
 --+----------------------------------------------------------------------------
 --|
@@ -59,48 +50,35 @@
 library ieee;
   use ieee.std_logic_1164.all;
   use ieee.numeric_std.all;
-
-
-entity top_basys3 is
-	port(
-
-		clk     :   in std_logic; -- native 100MHz FPGA clock
-		
-		-- Switches (16 total)
-		sw  	:   in std_logic_vector(15 downto 0); -- sw(15) = left; sw(0) = right
-
-		-- LEDs (16 total)
-		-- taillights (LC, LB, LA, RA, RB, RC)
-		led 	:   out std_logic_vector(15 downto 0);  -- led(15:13) --> L
-                                                        -- led(2:0)   --> R
-		
-		-- Buttons (5 total)
-		--btnC	:	in	std_logic
-		--btnU	:	in	std_logic;
-		btnL	:	in	std_logic;                    -- clk_reset
-		btnR	:	in	std_logic	                  -- fsm_reset
-		--btnD	:	in	std_logic;	
-	);
-end top_basys3;
-
-architecture top_basys3_arch of top_basys3 is 
   
-	-- declare components
+entity thunderbird_fsm_tb is
+end thunderbird_fsm_tb;
 
-  
+architecture test_bench of thunderbird_fsm_tb is 
+	
+	component thunderbird_fsm is 
+	  port(
+		
+	  );
+	end component thunderbird_fsm;
+
+	-- test I/O signals
+	
+	-- constants
+	
+	
 begin
 	-- PORT MAPS ----------------------------------------
-
 	
+	-----------------------------------------------------
 	
-	-- CONCURRENT STATEMENTS ----------------------------
+	-- PROCESSES ----------------------------------------	
+    -- Clock process ------------------------------------
+    
+	-----------------------------------------------------
 	
-	-- ground unused LEDs
-	-- leave unused switches UNCONNECTED
+	-- Test Plan Process --------------------------------
 	
-	-- Ignore the warnings associated with these signals
-	-- Alternatively, you can create a different board implementation, 
-	--   or make additional adjustments to the constraints file
-	led(12 downto 3) <= (others => '0');
+	-----------------------------------------------------	
 	
-end top_basys3_arch;
+end test_bench;
