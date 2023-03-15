@@ -8,6 +8,9 @@
 # don't ignore the project files
 !*.xpr
 
+# don't ignore waveform files
+!*.wcfg
+
 # don't ignore hardware description files
 !src/
 !src/**/
