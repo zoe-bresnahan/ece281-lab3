@@ -24,7 +24,6 @@
 --|
 --|					Outputs:  o_lights_L (2:0) --> 3-bit left turn signal lights
 --|					          o_lights_R (2:0) --> 3-bit right turn signal lights
---|							  o_current (2:0)  --> 3-bit current state for GR1
 --|
 --|					Upon reset, the FSM by defaults has all lights off.
 --|					Left ON - pattern of increasing lights to left
@@ -36,21 +35,19 @@
 --|					Once a pattern starts, it finishes back at OFF before it 
 --|					can be changed by the inputs
 --|					
---|					Even though this uses enumerated types it was created to output
---|					binary encoding for GR1. 
 --|
---|                 Binary Encoding key
+--|                 xxx State Encoding key
 --|                 --------------------
 --|                  State | Encoding
 --|                 --------------------
---|                  OFF   |     000
---|                  ON    |     001
---|                  R1    |     010
---|                  R2    |     011
---|                  R3    |     100
---|                  L1    |     101
---|                  L2    |     110
---|                  L3    |     111
+--|                  OFF   | 
+--|                  ON    | 
+--|                  R1    | 
+--|                  R2    | 
+--|                  R3    | 
+--|                  L1    | 
+--|                  L2    | 
+--|                  L3    | 
 --|                 --------------------
 --|
 --|

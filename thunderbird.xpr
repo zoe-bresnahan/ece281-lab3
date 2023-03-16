@@ -3,7 +3,7 @@
 <!--                                                         -->
 <!-- Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.   -->
 
-<Project Version="7" Minor="38" Path="C:/Users/Brian.Yarbrough/vivado/ece281-lab3/thunderbird.xpr">
+<Project Version="7" Minor="38" Path="./thunderbird.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
     <Option Name="Id" Val="4cd53e6bbb624592b3d648bdc1c3636b"/>
