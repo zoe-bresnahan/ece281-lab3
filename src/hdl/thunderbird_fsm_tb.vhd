@@ -88,7 +88,9 @@ begin
              i_reset => w_reset,
              i_left => w_left,
              i_right => w_right,
-             o_lights_L => w_lights_L,
+             o_lights_L(0) => w_lights_L(0),
+             o_lights_L(1) => w_lights_L(1),
+             o_lights_L(2) => w_lights_L(2),
              o_lights_R => w_lights_R
         );
 
@@ -130,14 +132,15 @@ begin
       
       --test left turn signal (L=1)
       w_left <= '1';
+      w_right <= '0';
       wait for k_clk_period;
-          assert w_lights_L = "001" report "bad left turn signal 1" severity failure;
+          assert w_lights_L = "001" and w_lights_R = "000" report "bad left turn signal 1" severity failure;
       wait for k_clk_period; --wait a clock cycle before moving to next phase
-          assert w_lights_L = "011" report "bad left turn signal 2" severity failure;
+          assert w_lights_L = "011" and w_lights_R = "000" report "bad left turn signal 2" severity failure;
       wait for k_clk_period; --wait a clock cycle to enter last phase
-          assert w_lights_L = "111" report "bad left turn signal 3" severity failure;
-      wait for k_clk_period; --wait before restarting pattern if L=1 still
-          assert w_lights_L = "001" report "bad left turn signal repeat" severity failure; 
+          assert w_lights_L = "111" and w_lights_R = "000" report "bad left turn signal 3" severity failure;
+      wait for k_clk_period; --wait and start from off again
+          assert w_lights_L = "000" and w_lights_R = "000" report "bad left turn signal repeat" severity failure; 
                
       --reset to OFF state before next test
       w_reset <= '1';
@@ -146,14 +149,15 @@ begin
       
       --test right turn signal (R=1)
       w_right <= '1';
+      w_left <= '0';
       wait for k_clk_period;
           assert w_lights_R = "001" report "bad right turn signal 1" severity failure;
       wait for k_clk_period; --wait a clock cycle before moving to next phase
           assert w_lights_R = "011" report "bad right turn signal 2" severity failure;
       wait for k_clk_period; --wait a clock cycle to enter last phase
           assert w_lights_R = "111" report "bad right turn signal 3" severity failure;
-      wait for k_clk_period; --wait before restarting pattern if R=1 still
-          assert w_lights_R = "001" report "bad right turn signal repeat" severity failure;
+      wait for k_clk_period; --wait and start from off again
+          assert w_lights_R = "000" report "bad right turn signal repeat" severity failure;
           
       --reset to OFF state before next test
       w_reset <= '1';
@@ -162,13 +166,14 @@ begin
       
       --test changing input in the middle of the cycle
       w_left <= '1';
+      w_right <= '0';
       wait for k_clk_period;
-          assert w_lights_R = "001" report "bad right turn signal 1" severity failure;
+          assert w_lights_L = "001" report "bad left turn signal 1" severity failure;
       w_left <= '0'; --changing input back to off but the turn signal cycle should still finish
       wait for k_clk_period; --wait a clock cycle before moving to next phase
-          assert w_lights_R = "011" report "bad right turn signal 2" severity failure;
+          assert w_lights_L = "011" report "bad left turn signal 2" severity failure;
       wait for k_clk_period; --wait a clock cycle to enter last phase
-          assert w_lights_R = "111" report "bad right turn signal 3" severity failure;
+          assert w_lights_L = "111" report "bad left turn signal 3" severity failure;
           
           
       end process;
